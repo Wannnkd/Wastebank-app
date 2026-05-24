@@ -1,6 +1,6 @@
 # Wastebank App
 
-Minimal runnable baseline for the Bank Sampah group project. This repository intentionally starts small so each feature can be added through a focused pull request.
+Runnable baseline for the Bank Sampah group project. The `main` branch already contains the agreed starter features, and every new feature must be added through a focused pull request from its own feature branch.
 
 ## Requirements
 
@@ -54,7 +54,7 @@ Use fork-based pull requests for group work:
 
 1. Fork this repository to your own GitHub account.
 2. Clone your fork.
-3. Create a branch from your fork's `main`.
+3. Create a new branch from your fork's `main`.
 4. Build one feature only.
 5. Push the branch to your fork.
 6. Open a pull request into `PutuReyvan/Wastebank-app:main`.
@@ -62,8 +62,17 @@ Use fork-based pull requests for group work:
 ```bash
 git clone https://github.com/<your-username>/Wastebank-app.git
 cd Wastebank-app
-git checkout -b feature/catalog
+git checkout -b feature/vendors
 ```
+
+Each pull request must represent exactly one feature. Do not combine unrelated work in one branch. Use branch names that clearly match the feature being implemented, for example:
+
+- `feature/vendors`
+- `feature/guides`
+- `feature/bank-dashboard`
+- `feature/admin-panel`
+- `feature/google-places`
+- `feature/external-prices`
 
 Do not commit secrets or local files:
 
@@ -77,18 +86,28 @@ Do not commit secrets or local files:
 
 Each pull request must include a short summary, screenshots for frontend changes, API routes changed, migration/seed changes, and manual test steps.
 
-First-priority feature PRs:
+## Current Baseline Features
 
-1. `feature/catalog`
-2. `feature/calculator`
-3. `feature/waste-bank-directory`
+The `main` branch already includes these starter features:
 
-Later feature PRs:
+- Waste catalog
+- Waste value calculator
+- Waste bank directory
 
-- `feature/vendors`
-- `feature/guides`
-- `feature/bank-dashboard`
-- `feature/admin-panel`
+Do not recreate these features in a new PR unless the PR is improving or fixing one of them.
+
+## Missing Features
+
+These features are intentionally not included yet. Each one should be implemented later in a separate branch and pull request:
+
+| Feature | Branch name | Scope |
+| --- | --- | --- |
+| Vendor directory/detail | `feature/vendors` | Add vendor listing, vendor detail page, backend endpoints, seed data, and tests/manual verification. |
+| Guides/articles | `feature/guides` | Add education article listing/detail pages, backend endpoints, seed data, and navigation. |
+| Bank login/dashboard | `feature/bank-dashboard` | Add bank account login, profile management, catalog management, protected routes, and backend auth/API support. |
+| Admin panel | `feature/admin-panel` | Add Filament/admin resources for managing waste types, banks, vendors, guides, and related data. |
+| Google Places realtime integration | `feature/google-places` | Add backend Google Places integration for realtime bank sampah search without exposing API keys in frontend code. |
+| External price integrations | `feature/external-prices` | Add external/reference price sources, API endpoints, display pages, and refresh/update workflow. |
 
 Recommended merge order:
 
@@ -100,10 +119,13 @@ Recommended merge order:
 
 ## Baseline Scope
 
-Current baseline includes only:
+Current baseline includes:
 
-- Laravel app shell
+- Laravel app shell and API routes
 - `GET /api/health`
-- React app shell at `/`
+- Waste type catalog backend/frontend
+- Waste value calculator backend/frontend
+- Waste bank directory backend/frontend
+- React app shell and shared layout
 - setup documentation
 - ignore rules for local/generated artifacts
