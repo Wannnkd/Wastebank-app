@@ -8,6 +8,7 @@ const NAV = [
   { to: "/katalog", label: "Katalog Sampah", code: "01" },
   { to: "/kalkulator", label: "Kalkulator Harga", code: "02" },
   { to: "/bank-sampah", label: "Direktori Bank Sampah", code: "03" },
+  { to: "/price-list", label: "Price List", code: "04" },
 ];
 
 export default function Layout() {

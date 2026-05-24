@@ -10,6 +10,11 @@ class WasteType extends Model
     use SoftDeletes;
 
     protected $fillable = [
+        'external_id',
+        'external_code',
+        'source_name',
+        'source_url',
+        'source_updated_at',
         'name',
         'category',
         'is_eligible',
@@ -22,5 +27,6 @@ class WasteType extends Model
     protected $casts = [
         'is_eligible' => 'boolean',
         'reference_price_per_kg' => 'decimal:2',
+        'source_updated_at' => 'datetime',
     ];
 }

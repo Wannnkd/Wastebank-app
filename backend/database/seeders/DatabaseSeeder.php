@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\WasteBank;
 use App\Models\WasteBankCatalog;
+use App\Models\ExternalWastePrice;
+use App\Models\PriceSource;
 use App\Models\WasteType;
 use Illuminate\Database\Seeder;
 
@@ -128,6 +130,49 @@ class DatabaseSeeder extends Seeder
                     'price_per_kg' => $price,
                 ]);
             }
+        }
+
+        $source = PriceSource::updateOrCreate(
+            ['name' => 'Baseline Price List'],
+            [
+                'type' => 'reference',
+                'url' => null,
+                'area' => 'Jakarta Barat',
+                'notes' => 'Seed reference prices for the baseline price list feature.',
+                'last_checked_at' => now(),
+                'is_active' => true,
+            ],
+        );
+
+        $priceRows = [
+            ['PL-001', 'Plastik', 'Botol PET Bening', 4500],
+            ['PL-002', 'Plastik', 'Botol Plastik Berwarna', 2500],
+            ['PL-003', 'Plastik', 'Gelas Plastik', 3000],
+            ['PL-004', 'Kertas', 'Kardus', 2200],
+            ['PL-005', 'Kertas', 'Koran Bekas', 2800],
+            ['PL-006', 'Logam', 'Kaleng Aluminium', 14000],
+            ['PL-007', 'Logam', 'Besi Bekas', 4500],
+            ['PL-008', 'Logam', 'Tembaga', 75000],
+            ['PL-009', 'Botol Kaca', 'Botol Kaca Bening', 500],
+            ['PL-010', 'Elektronik', 'Limbah Elektronik (E-waste)', 6000],
+        ];
+
+        foreach ($priceRows as [$code, $category, $itemName, $price]) {
+            ExternalWastePrice::updateOrCreate(
+                [
+                    'price_source_id' => $source->id,
+                    'external_id' => $code,
+                ],
+                [
+                    'external_code' => $code,
+                    'category' => $category,
+                    'item_name' => $itemName,
+                    'price' => $price,
+                    'unit' => 'Kg',
+                    'source_updated_at' => now(),
+                    'is_active' => true,
+                ],
+            );
         }
     }
 }

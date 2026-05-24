@@ -231,3 +231,41 @@ export const wasteBanks = [
     ],
   },
 ];
+
+export const priceSources = [
+  {
+    id: 1,
+    name: "Baseline Price List",
+    type: "reference",
+    url: null,
+    area: "Jakarta Barat",
+    notes: "Seed reference prices for the baseline price list feature.",
+    last_checked_at: "2026-05-24T09:00:00+07:00",
+    prices_count: 10,
+    is_active: true,
+  },
+];
+
+export const externalPrices = [
+  ["PL-001", "Plastik", "Botol PET Bening", 4500],
+  ["PL-002", "Plastik", "Botol Plastik Berwarna", 2500],
+  ["PL-003", "Plastik", "Gelas Plastik", 3000],
+  ["PL-004", "Kertas", "Kardus", 2200],
+  ["PL-005", "Kertas", "Koran Bekas", 2800],
+  ["PL-006", "Logam", "Kaleng Aluminium", 14000],
+  ["PL-007", "Logam", "Besi Bekas", 4500],
+  ["PL-008", "Logam", "Tembaga", 75000],
+  ["PL-009", "Botol Kaca", "Botol Kaca Bening", 500],
+  ["PL-010", "Elektronik", "Limbah Elektronik (E-waste)", 6000],
+].map(([external_code, category, item_name, price], index) => ({
+  id: index + 1,
+  source: priceSources[0],
+  external_id: external_code,
+  external_code,
+  category,
+  item_name,
+  price,
+  unit: "Kg",
+  image_url: null,
+  source_updated_at: "2026-05-24T09:00:00+07:00",
+}));
