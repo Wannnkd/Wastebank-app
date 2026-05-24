@@ -71,8 +71,8 @@ Each pull request must represent exactly one feature. Do not combine unrelated w
 - `feature/guides`
 - `feature/bank-dashboard`
 - `feature/admin-panel`
-- `feature/google-places`
-- `feature/external-prices`
+- `feature/location`
+- `feature/price-list`
 
 Do not commit secrets or local files:
 
@@ -106,8 +106,8 @@ These features are intentionally not included yet. Each one should be implemente
 | Guides/articles | `feature/guides` | Add education article listing/detail pages, backend endpoints, seed data, and navigation. |
 | Bank login/dashboard | `feature/bank-dashboard` | Add bank account login, profile management, catalog management, protected routes, and backend auth/API support. |
 | Admin panel | `feature/admin-panel` | Add Filament/admin resources for managing waste types, banks, vendors, guides, and related data. |
-| Google Places realtime integration | `feature/google-places` | Add backend Google Places integration for realtime bank sampah search without exposing API keys in frontend code. |
-| External price integrations | `feature/external-prices` | Add external/reference price sources, API endpoints, display pages, and refresh/update workflow. |
+| Location integration | `feature/location` | Add backend Google Places/location integration for realtime bank sampah search without exposing API keys in frontend code. |
+| Price list | `feature/price-list` | Add external/reference price sources, API endpoints, display pages, and refresh/update workflow. |
 
 Recommended merge order:
 
