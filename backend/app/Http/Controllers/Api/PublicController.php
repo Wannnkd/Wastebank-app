@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\ExternalWastePrice;
+use App\Models\PriceSource;
 use App\Models\WasteBank;
 use App\Models\WasteType;
 use Illuminate\Http\Request;
@@ -117,6 +119,68 @@ class PublicController extends Controller
         $bank = WasteBank::with(['catalog.wasteType'])->findOrFail($id);
 
         return response()->json(['data' => $this->serializeBank($bank)]);
+    }
+
+    public function priceSources()
+    {
+        $sources = PriceSource::query()
+            ->where('is_active', true)
+            ->withCount(['prices' => fn ($query) => $query->where('is_active', true)])
+            ->orderBy('name')
+            ->get();
+
+        return response()->json([
+            'data' => $sources,
+            'meta' => ['total' => $sources->count()],
+        ]);
+    }
+
+    public function externalPrices(Request $request)
+    {
+        $query = ExternalWastePrice::with('source')
+            ->where('is_active', true)
+            ->whereHas('source', fn ($source) => $source->where('is_active', true));
+
+        if ($request->filled('source')) {
+            $source = $request->input('source');
+            $query->whereHas('source', fn ($item) => $item->where('name', $source));
+        }
+
+        if ($request->filled('category') && $request->input('category') !== 'Semua') {
+            $query->where('category', $request->input('category'));
+        }
+
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(fn ($price) => $price
+                ->where('item_name', 'like', "%{$search}%")
+                ->orWhere('external_code', 'like', "%{$search}%"));
+        }
+
+        $prices = $query->orderBy('category')->orderBy('item_name')->get()->map(fn ($price) => [
+            'id' => $price->id,
+            'source' => [
+                'id' => $price->source?->id,
+                'name' => $price->source?->name,
+                'type' => $price->source?->type,
+                'url' => $price->source?->url,
+                'area' => $price->source?->area,
+                'last_checked_at' => $price->source?->last_checked_at,
+            ],
+            'external_id' => $price->external_id,
+            'external_code' => $price->external_code,
+            'category' => $price->category,
+            'item_name' => $price->item_name,
+            'price' => (float) $price->price,
+            'unit' => $price->unit,
+            'image_url' => $price->image_url,
+            'source_updated_at' => $price->source_updated_at,
+        ]);
+
+        return response()->json([
+            'data' => $prices,
+            'meta' => ['total' => $prices->count()],
+        ]);
     }
 
     private function serializeBank(WasteBank $bank): array

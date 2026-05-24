@@ -2,6 +2,8 @@ import axios from "axios";
 import {
   wasteTypes as mockWasteTypes,
   wasteBanks as mockWasteBanks,
+  priceSources as mockPriceSources,
+  externalPrices as mockExternalPrices,
 } from "@/lib/mockData";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "";
@@ -164,4 +166,43 @@ export async function getWasteBank(id) {
 export function getKecamatanList() {
   const values = new Set(mockWasteBanks.map((bank) => bank.kecamatan));
   return ["Semua", ...Array.from(values).sort()];
+}
+
+export async function getPriceSources() {
+  if (USE_REAL_API) {
+    const res = await http.get("/price-sources");
+    return res.data;
+  }
+
+  return {
+    data: mockPriceSources,
+    meta: { total: mockPriceSources.length },
+  };
+}
+
+export async function getExternalPrices({ source, category, search } = {}) {
+  if (USE_REAL_API) {
+    const res = await http.get("/external-prices", {
+      params: { source, category, search },
+    });
+    return res.data;
+  }
+
+  let items = [...mockExternalPrices];
+  if (source) {
+    items = items.filter((price) => price.source?.name === source);
+  }
+  if (category && category !== "Semua") {
+    items = items.filter((price) => price.category === category);
+  }
+  if (search) {
+    const value = search.toLowerCase();
+    items = items.filter(
+      (price) =>
+        price.item_name.toLowerCase().includes(value) ||
+        String(price.external_code || "").toLowerCase().includes(value),
+    );
+  }
+
+  return paginate(items);
 }

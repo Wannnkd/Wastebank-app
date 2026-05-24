@@ -71,8 +71,6 @@ Each pull request must represent exactly one feature. Do not combine unrelated w
 - `feature/guides`
 - `feature/bank-dashboard`
 - `feature/admin-panel`
-- `feature/location`
-- `feature/price-list`
 
 Do not commit secrets or local files:
 
@@ -93,6 +91,8 @@ The `main` branch already includes these starter features:
 - Waste catalog
 - Waste value calculator
 - Waste bank directory
+- Location integration
+- Price list
 
 Do not recreate these features in a new PR unless the PR is improving or fixing one of them.
 
@@ -106,8 +106,6 @@ These features are intentionally not included yet. Each one should be implemente
 | Guides/articles | `feature/guides` | Add education article listing/detail pages, backend endpoints, seed data, and navigation. |
 | Bank login/dashboard | `feature/bank-dashboard` | Add bank account login, profile management, catalog management, protected routes, and backend auth/API support. |
 | Admin panel | `feature/admin-panel` | Add Filament/admin resources for managing waste types, banks, vendors, guides, and related data. |
-| Location integration | `feature/location` | Add backend Google Places/location integration for realtime bank sampah search without exposing API keys in frontend code. |
-| Price list | `feature/price-list` | Add external/reference price sources, API endpoints, display pages, and refresh/update workflow. |
 
 Recommended merge order:
 
@@ -126,6 +124,8 @@ Current baseline includes:
 - Waste type catalog backend/frontend
 - Waste value calculator backend/frontend
 - Waste bank directory backend/frontend
+- Google Places/location backend integration
+- Price list backend/frontend
 - React app shell and shared layout
 - setup documentation
 - ignore rules for local/generated artifacts
