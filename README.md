@@ -48,6 +48,63 @@ cd frontend
 npm run build
 ```
 
+## Demo Deployment
+
+Use Railway for the Laravel backend and Vercel for the React frontend.
+
+### Railway Backend
+
+Create a Railway project from this GitHub repository and set the service root directory to `backend`.
+Add a Railway PostgreSQL database, then set these backend environment variables in Railway:
+
+```env
+APP_NAME=Wastebank App
+APP_ENV=production
+APP_DEBUG=false
+APP_KEY=<run: php artisan key:generate --show>
+APP_URL=<your Railway backend URL>
+
+DB_CONNECTION=pgsql
+DB_HOST=<Railway PostgreSQL host>
+DB_PORT=<Railway PostgreSQL port>
+DB_DATABASE=<Railway PostgreSQL database>
+DB_USERNAME=<Railway PostgreSQL user>
+DB_PASSWORD=<Railway PostgreSQL password>
+
+CACHE_STORE=database
+QUEUE_CONNECTION=database
+SESSION_DRIVER=database
+
+GOOGLE_MAPS_API_KEY=<your Google Maps API key>
+```
+
+Railway will use `backend/nixpacks.toml` to install Composer dependencies, run migrations and seeders, cache Laravel config/routes, and start the API server.
+
+After deploy, verify:
+
+```text
+https://<your-railway-backend-url>/api/health
+```
+
+### Vercel Frontend
+
+Create a Vercel project from this GitHub repository and set:
+
+- Root directory: `frontend`
+- Framework preset: Create React App
+- Build command: `npm run build`
+- Output directory: `build`
+
+Set these frontend environment variables in Vercel:
+
+```env
+REACT_APP_USE_REAL_API=true
+REACT_APP_BACKEND_URL=<your Railway backend URL>
+REACT_APP_GOOGLE_MAPS_API_KEY=
+```
+
+`frontend/vercel.json` already rewrites React Router routes to `index.html`, so direct refreshes such as `/panduan/1` should work.
+
 ## Pull Request Workflow
 
 Use fork-based pull requests for group work:
